@@ -1,34 +1,40 @@
-# DL_language_detection
-Deep learning model to classify audio clips of German, English, Spanish, French, Dutch, and Portuguese using PyTorch.
+# Audio Language Classifier
+A CNN-LSTM model that identifies spoken language from short audio clips across 6 European languages.
 
+## Features
+- Classifies audio into German, English, Spanish, French, Dutch, or Portuguese
+- Extracts MFCC features (13 coefficients, 8kHz sample rate) from raw audio waveforms
+- Hybrid CNN (spatial features) + LSTM (temporal sequences) architecture with batch normalization and dropout
+- Includes PCA visualization of model outputs and TorchScript model export
 
-This repository contains a Convolutional Neural Network - Long Short Term Memory (CNN-LSTM) hybrid model for Speech Recognition, written in PyTorch.
+## Tech Stack
+- **Python** 3.x
+- **PyTorch** + **torchaudio** — model training and audio transforms
+- **NumPy** — data handling
+- **scikit-learn** — train/test splitting and PCA
+- **matplotlib** — loss and PCA plots
+- **torchviz** — model architecture diagram
 
-# Project Description
-The project implements a hybrid CNN-LSTM model, designed for recognizing spoken languages from short audio clips. The code first loads data, converts it into PyTorch tensors and applies Mel-Frequency Cepstral Coefficients (MFCC) transformation. These transformed data are then input to the CNN-LSTM model. The model is trained using a Cross Entropy Loss and the Adam optimizer. The training process is performed in batches and at the end of each epoch, both training and validation losses are reported. Post-training, the model is evaluated on a test dataset. The trained model is saved for further use.
+## Quick Start
 
-Additionally, the script visualizes the model output using PCA and creates a diagram of the model architecture using TorchViz.
+```bash
+# Install dependencies
+pip install numpy torch torchaudio scikit-learn matplotlib torchviz
 
+# Train the model (expects .npy data files in the project root)
+python app.py
 
-## Dependencies
-numpy
-torch
-sklearn
-matplotlib
-torchaudio
-torchviz
-Please install the required dependencies using the following command:
+# Save the trained model as TorchScript
+python save_model.py
 
-pip install numpy torch torchvision torchaudio sklearn matplotlib torchviz
+# Visualize training/validation loss
+python plot_train_val_loss.py
 
-## Data
+# Generate PCA plot of model outputs
+python PCA.py
+```
 
-## Usage
-
-## Model
-The model architecture is a combination of Convolutional Neural Networks (CNN) and Long Short Term Memory (LSTM). The CNN part is used for feature extraction from the MFCC transformed audio clips, while the LSTM part uses these features for sequence learning. The output of the model is a softmax distribution over the six classes, representing the six languages.
-
-Please note, currently the model doesn't handle sequences of arbitrary length due to the structure of the CNN layers. To make it handle variable-length sequences, we could eliminate the CNN layers and use only LSTM layers or incorporate an adaptive pooling layer after the CNN layers.
-
-## License
-This project is licensed under the terms of the MIT license.
+## Future Improvements
+- [ ] Support variable-length audio sequences (adaptive pooling or LSTM-only architecture)
+- [ ] Add an inference script for classifying a single audio file from the command line
+- [ ] Include dataset download/preparation instructions and expected `.npy` file format
